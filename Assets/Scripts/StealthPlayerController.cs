@@ -79,7 +79,11 @@ public class StealthPlayerController : Character {
     public bool canCloak = false;
     public bool canDrain = false;
 
+    public bool canShoot = true;
+
     public ParticleSystem warpParticles;
+
+    public GameObject myBullet;
     
 
     static StealthPlayerController _instance;
@@ -185,10 +189,16 @@ public class StealthPlayerController : Character {
 
     // Update is called once per frame
     void Update() {
+        if (Input.GetButton("Fire1") || Input.GetMouseButtonDown(0)){
+            Debug.Log($"Tirooo");
+            Fire();
+        }
+        
         if (GameLogic.instance.gameState != GameLogic.GameStates.gameplay)
         {
             return;
         }
+
 
         if (state == States.attacking)
         {
@@ -478,6 +488,22 @@ public class StealthPlayerController : Character {
                 transform.rotation = Quaternion.Lerp(transform.rotation, rotationDestination, rotateSpeed * Time.deltaTime);
             }
         }
+    }
+
+    private void Fire()
+    {
+        //Debug.Log("Fire");
+
+        SpendEnergy(10.0f);
+
+        GameObject fireEffect = GameObject.Instantiate(EffectsManager.getInstance().shootEffect);
+        fireEffect.transform.position= transform.position + 0.3f * Vector3.up+0.2f*transform.forward;
+        fireEffect.transform.forward = transform.forward;
+
+        GameObject thisBullet= GameObject.Instantiate(myBullet);
+        thisBullet.transform.position = transform.position + 0.3f * Vector3.up;
+        thisBullet.transform.forward = transform.forward;
+        thisBullet.GetComponent<DamageArea>().friend = friend;
     }
 
     public void Kill()

@@ -23,6 +23,8 @@ public class Door : MonoBehaviour {
 
     public Renderer doorRenderer;
 
+
+
     void OnTriggerEnter(Collider col)
     {
         if(state== State.open)
