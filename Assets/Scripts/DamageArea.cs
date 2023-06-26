@@ -9,6 +9,7 @@ public class DamageArea : MonoBehaviour {
     public float speed = 6;
     public float lifetime = 2;
     float currentTime = 0;
+    public ParticleSystem bulletColor;
 
     void Update()
     {
@@ -40,6 +41,13 @@ public class DamageArea : MonoBehaviour {
         {
             colCharacter.DealDamage(damage);
             DestroyBullet();
+            if(colCharacter.friend == false)
+            {
+                colCharacter.dead = true;
+                col.gameObject.GetComponent<AIAgent>().bodyRenderer.enabled = false;
+                col.gameObject.GetComponent<AIAgent>().aiEnabled = false;
+
+            }
         }
     }
 }

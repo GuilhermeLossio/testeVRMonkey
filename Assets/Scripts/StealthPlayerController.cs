@@ -189,8 +189,8 @@ public class StealthPlayerController : Character {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetButton("Fire1") || Input.GetMouseButtonDown(0)){
-            Debug.Log($"Tirooo");
+        if (Input.GetButton("Fire1") && Time.timeScale != 0 || Input.GetMouseButtonDown(0) && Time.timeScale != 0){
+            //Debug.Log($"Tirooo");
             Fire();
         }
         
@@ -504,10 +504,19 @@ public class StealthPlayerController : Character {
         thisBullet.transform.position = transform.position + 0.3f * Vector3.up;
         thisBullet.transform.forward = transform.forward;
         thisBullet.GetComponent<DamageArea>().friend = friend;
-    }
 
+        float speedOfBullet = Random.Range( 10, 20);
+        thisBullet.GetComponent<DamageArea>().speed = speedOfBullet;
+        thisBullet.GetComponent<DamageArea>().bulletColor.startColor = RandomColor();
+
+    }
     public void Kill()
     {
 
+    }
+
+    public Color RandomColor()
+    {
+        return new Color(Random.value, Random.value, Random.value);
     }
 }
